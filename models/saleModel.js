@@ -1,14 +1,14 @@
 const connection = require('../config/connection');
 
-const getAllSales = () => {
+const getAllSales = async () => {
   const query = 'SELECT * FROM sales';
-  const result = connection.execute(query);
+  const result = await connection.execute(query);
   return result;
 };
 
-const getSalesById = (id) => {
+const getSalesById = async (id) => {
   const query = 'SELECT * FROM sales WHERE sales.id = ?';
-  const result = connection.execute(query, [id]);
+  const result = await connection.execute(query, [id]);
   if (!result.length) return null;
   return result;
 };
