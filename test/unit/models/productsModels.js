@@ -55,12 +55,12 @@ describe('Search for all products in the database', () => {
       expect(result).to.be.not.empty;
     });
 
-    it('the array contain objects', () => {
+    it('the array contain objects', async () => {
       const result = await productModel.getAllProducts();
       expect(result).to.be.an('object');
     });
 
-    if('objects contain attributes id, name, quantity', () => {
+    if('objects contain attributes id, name, quantity', async () => {
       const result = await productModel.getAllProducts();
       expect(result).to.be.includes.all.keys('id', 'name', 'quantity');
     });
