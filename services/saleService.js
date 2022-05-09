@@ -1,12 +1,12 @@
 const saleModel = require('../models/saleModel');
 
-const getAllSales = () => {
-  const result = saleModel.getAllSales();
+const getAllSales = async () => {
+  const result = await saleModel.getAllSales();
   return result;
 };
 
-const getSalesById = (id) => {
-  const result = saleModel.getSalesById(id);
+const getSalesById = async (id) => {
+  const result = await saleModel.getSalesById(id);
   return result;
 };
 
