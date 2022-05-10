@@ -1,16 +1,32 @@
+const { StatusCodes } = require('http-status-codes');
 const connection = require('../config/connection');
 
 const getAllSales = async () => {
-  const query = 'SELECT * FROM sales';
+  const query = (`
+  SELECT sp.sale_id AS saleId, sp.product_id AS productId, sp.quantity AS quantity, sa.date AS date
+  FROM sales_products AS sp
+  JOIN sales AS sa
+  ON sp.sale_id = sa.id
+  `);
   const [result] = await connection.execute(query);
   return result;
 };
 
 const getSalesById = async (id) => {
-  const query = 'SELECT * FROM sales WHERE sales.id = ?';
+  const query = (`
+  SELECT sa.date AS date, sp.product_id AS productId, sp.quantity AS quantity
+  FROM sales_products AS sp
+  JOIN sales AS sa
+  ON sp.sale_id = sa.id
+  WHERE sp.sale_id = ?
+  ORDER BY sp.sale_id, productId
+  `);
   const [result] = await connection.execute(query, [id]);
-  if (!result.length) return null;
-  return result[0];
+  if (!result.length) {
+    const error = { status: StatusCodes.NOT_FOUND, message: 'Sale not found' };
+    throw error;
+  }
+  return result;
 };
 
 module.exports = {
