@@ -28,7 +28,18 @@ const createProduct = async (name, quantity) => {
   return result;
 };
 
+const checkProductId = async (id) => {
+  const query = 'SELECT name FROM products WHERE id = ?';
+  const [result] = await connection.execute(query, [id]);
+  return result;
+};
+
 const updateProduct = async (id, name, quantity) => {
+  const check = await checkProductId(id);
+  if (!check.length) {
+    const error = { status: StatusCodes.NOT_FOUND, message: 'Product not found' };
+    throw error;
+  }
   const result = await productModel.updateProduct(id, name, quantity);
   return result;
 };
