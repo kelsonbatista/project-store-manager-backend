@@ -8,9 +8,9 @@ saleRouter.get('/', saleController.getAllSales);
 
 saleRouter.get('/:id', saleController.getSalesById);
 
-saleRouter.post('/', validateSale, saleController.createSaleProduct);
+saleRouter.post('/', validateSale.validateSale, saleController.createSaleProduct);
 
-saleRouter.put('/:id', validateSale, saleController.updateSaleProduct);
+saleRouter.put('/:id', validateSale.validateSaleProduct, saleController.updateSaleProduct);
 
 saleRouter.delete('/:id', saleController.deleteSaleProduct);
 
