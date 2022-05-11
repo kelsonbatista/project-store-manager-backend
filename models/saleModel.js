@@ -75,10 +75,15 @@ const deleteSale = async (id) => {
   return result;
 };
 
-const deleteSaleProduct = async (id) => {
-  await deleteSale(id);
+const deleteSaleProduct = async (newId) => {
+  const sale = await getSalesById(newId);
+  const newProductId = sale[0].productId;
+  const newQuantity = sale[0].quantity;
+  const { id, name, quantity } = await productModel.getProductsById(newProductId);
+  await productModel.updateProduct(id, name, quantity + newQuantity);
+  await deleteSale(newId);
   const query = 'DELETE FROM sales_products WHERE sale_id = ?';
-  const result = connection.execute(query, [id]);
+  const result = connection.execute(query, [newId]);
   return result;
 };
 
