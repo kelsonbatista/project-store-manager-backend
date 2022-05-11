@@ -23,13 +23,13 @@ const checkSaleProductId = async (id) => {
   return result;
 };
 
-const updateSaleProduct = async (saleId, productId, quantity) => {
-  const check = await checkSaleProductId(saleId);
+const updateSaleProduct = async (id, productId, quantity) => {
+  const check = await checkSaleProductId(id);
   if (!check.length) {
     const error = { status: StatusCodes.NOT_FOUND, message: 'Sale not found' };
     throw error;
   }
-  const result = await saleModel.updateSaleProduct(saleId, productId, quantity);
+  const result = await saleModel.updateSaleProduct(id, productId, quantity);
   return result;
 };
 
