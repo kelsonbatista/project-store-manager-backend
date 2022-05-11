@@ -32,8 +32,20 @@ const createSaleProduct = async (req, res, next) => {
   }
 };
 
+const updateSaleProduct = async (req, res, next) => {
+  try {
+    const { saleId, productId, quantity } = req.body;
+    const result = await saleService.updateSaleProduct(saleId, productId, quantity);
+    return res.status(StatusCodes.OK).json(result);
+  } catch (err) {
+    console.log(`Error Status ${err.status} - ${err.message}`);
+    next(err);
+  }
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   createSaleProduct,
+  updateSaleProduct,
 };
