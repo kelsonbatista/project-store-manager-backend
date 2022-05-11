@@ -33,9 +33,20 @@ const updateSaleProduct = async (saleId, productId, quantity) => {
   return result;
 };
 
+const deleteSaleProduct = async (id) => {
+  const check = await checkSaleProductId(id);
+  if (!check.length) {
+    const error = { status: StatusCodes.NOT_FOUND, message: 'Sale not found' };
+    throw error;
+  }
+  const result = await saleModel.deleteSaleProduct(id);
+  return result;
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   createSaleProduct,
   updateSaleProduct,
+  deleteSaleProduct,
 };
