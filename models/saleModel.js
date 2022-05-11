@@ -47,9 +47,32 @@ const createSaleProduct = async (productId, quantity) => {
   };
 };
 
+const updateSale = async (saleId) => {
+  const query = 'UPDATE sales SET date = NOW() WHERE id = ?';
+  const result = await connection.execute(query, [saleId]);
+  return result;
+};
+
+const updateSaleProduct = async (saleId, productId, quantity) => {
+  await updateSale(saleId);
+  const query = `
+  UPDATE sales_products
+  SET product_id = ?, quantity = ?
+  WHERE sale_id = ?
+  `;
+  await connection.execute(query, [productId, quantity, saleId]);
+  return {
+    saleId,
+    productId,
+    quantity,
+  };
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   createSale,
   createSaleProduct,
+  updateSale,
+  updateSaleProduct,
 };
