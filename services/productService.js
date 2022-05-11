@@ -10,8 +10,8 @@ const getProductsById = async (id) => {
   return result;
 };
 
-const createProduct = async ({ name, quantity }) => {
-  const result = await productModel.createProduct({ name, quantity });
+const createProduct = async (name, quantity) => {
+  const result = await productModel.createProduct(name, quantity);
   return result;
 };
 
