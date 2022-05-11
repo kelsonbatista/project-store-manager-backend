@@ -12,11 +12,6 @@ const getSalesById = async (id) => {
   return result;
 };
 
-const createSaleProduct = async (productId, quantity) => {
-  const result = await saleModel.createSaleProduct(productId, quantity);
-  return result;
-};
-
 const checkSaleId = async (id) => {
   const query = 'SELECT sale_id FROM sales_products WHERE sale_id = ?';
   const [result] = await connection.execute(query, [id]);
@@ -27,6 +22,33 @@ const checkProductId = async (productId) => {
   const query = 'SELECT id FROM products WHERE id = ?';
   const [result] = await connection.execute(query, [productId]);
   return result;
+};
+
+const createSale = async () => {
+  const query = ('INSERT INTO sales (date) VALUES (NOW())');
+  // const date = Date.now().toISOString();
+  const [result] = await connection.execute(query);
+  return result.insertId;
+};
+
+const createSaleProduct = async (reqBody) => {
+  const id = await createSale();
+  const sales = await Promise.all(reqBody.map(async ({ productId, quantity }) => {
+    const checkProduct = await checkProductId(productId);
+    if (!checkProduct.length) {
+      const error = { 
+        status: StatusCodes.NOT_FOUND, 
+        message: `Product ${productId} does not exist`,
+      };
+      throw error;
+    }
+    const sale = await saleModel.createSaleProduct(id, productId, quantity);
+    return sale;
+  }));
+  return {
+    id,
+    itemsSold: sales,
+  };
 };
 
 const updateSaleProduct = async (id, productId, quantity) => {
