@@ -25,7 +25,7 @@ const createSaleProduct = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
     const result = await saleService.createSaleProduct(productId, quantity);
-    return res.status(StatusCodes.OK).json(result);
+    return res.status(StatusCodes.CREATED).json(result);
   } catch (err) {
     console.log(`Error Status ${err.status} - ${err.message}`);
     next(err);
