@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const connection = require('../config/connection');
+const productModel = require('./productModel');
 
 const getAllSales = async () => {
   const query = (`
@@ -29,13 +30,15 @@ const getSalesById = async (id) => {
   return result;
 };
 
-const createSaleProduct = async (id, productId, quantity) => {
+const createSaleProduct = async (newId, newProductId, newQuantity) => {
   // const id = await createSale();
   const query = ('INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)');
-  await connection.execute(query, [id, productId, quantity]);
+  await connection.execute(query, [newId, newProductId, newQuantity]);
+  const { id, name, quantity } = await productModel.getProductsById(newProductId);
+  await productModel.updateProduct(id, name, quantity - newQuantity);
   return {
-    productId,
-    quantity,
+    productId: newProductId,
+    quantity: newQuantity,
   };
 };
 
