@@ -34,7 +34,8 @@ const createProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   try {
-    const { id, name, quantity } = req.body;
+    const { id } = req.params;
+    const { name, quantity } = req.body;
     const result = await productService.updateProduct(id, name, quantity);
     return res.status(StatusCodes.OK).json(result);
   } catch (err) {
