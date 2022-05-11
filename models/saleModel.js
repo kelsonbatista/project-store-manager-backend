@@ -63,8 +63,12 @@ const updateSaleProduct = async (id, productId, quantity) => {
   await connection.execute(query, [productId, quantity, id]);
   return {
     saleId: id,
-    productId,
-    quantity,
+    itemUpdated: [
+      {
+        productId,
+        quantity,
+      },
+    ],
   };
 };
 
