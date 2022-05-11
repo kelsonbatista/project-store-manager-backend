@@ -48,20 +48,22 @@ const updateSale = async (id) => {
   return result;
 };
 
-const updateSaleProduct = async (id, productId, quantity) => {
-  await updateSale(id);
+const updateSaleProduct = async (newId, newProductId, newQuantity) => {
+  await updateSale(newId);
   const query = `
   UPDATE sales_products
   SET product_id = ?, quantity = ?
   WHERE sale_id = ?
   `;
-  await connection.execute(query, [productId, quantity, id]);
+  await connection.execute(query, [newProductId, newQuantity, newId]);
+  const { id, name } = await productModel.getProductsById(newProductId);
+  await productModel.updateProduct(id, name, newQuantity);
   return {
     saleId: id,
     itemUpdated: [
       {
-        productId,
-        quantity,
+        productId: newProductId,
+        quantity: newQuantity,
       },
     ],
   };
