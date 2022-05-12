@@ -1,20 +1,20 @@
 const { expect } = require('chai');
-const productModel = require('../../../models/productModel');
 const sinon = require('sinon');
+const productModel = require('../../../models/productModel');
 const connection = require('../../../config/connection');
 
-describe('Search for all products in the database', () => {
-  describe('if products do not exists', () => {
+describe('PRODUCTS MODEL LAYER - Search for all products in the database', () => {
+  describe('if product do not exists', () => {
 
     const resultExecute = [[]];
 
     // sinon é responsável por criar um duble, simulação de dados
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves(resultExecute);
     });
 
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     })
 
@@ -37,17 +37,17 @@ describe('Search for all products in the database', () => {
       quantity: 10
     }]
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves([resultExecute]);
     })
 
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     })
 
     it('must return an array', async () => {
       const result = await productModel.getAllProducts();
-      expect(result[0]).to.be.an('array');
+      expect(result).to.be.an('array');
     });
 
     it('the array must be not empty', async () => {
@@ -57,12 +57,12 @@ describe('Search for all products in the database', () => {
 
     it('the array contain objects', async () => {
       const result = await productModel.getAllProducts();
-      expect(result).to.be.an('object');
+      expect(result[0]).to.be.an('object');
     });
 
-    if('objects contain attributes id, name, quantity', async () => {
+    it('objects contain attributes id, name, quantity', async () => {
       const result = await productModel.getAllProducts();
-      expect(result).to.be.includes.all.keys('id', 'name', 'quantity');
+      expect(result[0]).to.be.includes.all.keys('id', 'name', 'quantity');
     });
   });
 });
