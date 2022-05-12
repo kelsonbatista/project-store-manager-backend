@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const saleModel = require('../../../models/saleModel');
 const saleService = require('../../../services/saleService');
 
-describe('SALES SERVICES LAYER - Search for all sales in the database', () => {
+describe('6.1) SALES SERVICES LAYER - Search for all sales in the database', () => {
   describe('if sales do not exists', () => {
 
     const resultExecute = [[]];

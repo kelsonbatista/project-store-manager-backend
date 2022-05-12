@@ -4,7 +4,7 @@ const productService = require('../../../services/productService');
 const productController = require('../../../controllers/productController');
 
 // teste de req, res, next
-describe('PRODUCTS CONTROLLER LAYER - Search for all products in the database', () => {
+describe('1.1) PRODUCTS CONTROLLER LAYER - Search for all products in the database', () => {
   describe('if product do not exists', () => {
 
     const resultExecute = [[]];

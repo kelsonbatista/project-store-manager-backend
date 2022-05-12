@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const productModel = require('../../../models/productModel');
 const connection = require('../../../config/connection');
 
-describe('PRODUCTS MODEL LAYER - Search for all products in the database', () => {
+describe('3.1) PRODUCTS MODEL LAYER - Search for all products in the database', () => {
   describe('if product do not exists', () => {
 
     const resultExecute = [[]];
@@ -67,7 +67,7 @@ describe('PRODUCTS MODEL LAYER - Search for all products in the database', () =>
   });
 });
 
-describe('PRODUCTS MODEL LAYER - Search for product by id', () => {
+describe('3.2) PRODUCTS MODEL LAYER - Search for product by id', () => {
   describe('if product do not exists', () => {
 
     const resultExecute = [[]];

@@ -4,7 +4,7 @@ const saleService = require('../../../services/saleService');
 const saleController = require('../../../controllers/saleController');
 
 // teste de req, res, next
-describe('SALES CONTROLLER LAYER - Search for all sales in the database', () => {
+describe('2.1) SALES CONTROLLER LAYER - Search for all sales in the database', () => {
   describe('if sale do not exists', () => {
 
     const resultExecute = [[]];
