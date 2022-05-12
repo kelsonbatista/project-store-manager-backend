@@ -1,4 +1,3 @@
-const { StatusCodes } = require('http-status-codes');
 const connection = require('../config/connection');
 const productModel = require('./productModel');
 
@@ -23,10 +22,6 @@ const getSalesById = async (id) => {
   ORDER BY sp.sale_id, productId
   `);
   const [result] = await connection.execute(query, [id]);
-  if (!result.length) {
-    const error = { status: StatusCodes.NOT_FOUND, message: 'Sale not found' };
-    throw error;
-  }
   return result;
 };
 

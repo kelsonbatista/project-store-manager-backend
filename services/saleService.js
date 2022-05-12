@@ -10,6 +10,10 @@ const getAllSales = async () => {
 
 const getSalesById = async (id) => {
   const result = await saleModel.getSalesById(id);
+  if (!result.length) {
+    const error = { status: StatusCodes.NOT_FOUND, message: 'Sale not found' };
+    throw error;
+  }
   return result;
 };
 
