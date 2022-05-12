@@ -34,7 +34,8 @@ const createSaleProduct = async (newId, newProductId, newQuantity) => {
   // const id = await createSale();
   const query = ('INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)');
   await connection.execute(query, [newId, newProductId, newQuantity]);
-  const { id, name, quantity } = await productModel.getProductsById(newProductId);
+  const product = await productModel.getProductsById(newProductId);
+  const { id, name, quantity } = product[0];
   await productModel.updateProduct(id, name, quantity - newQuantity);
   return {
     productId: newProductId,
@@ -51,12 +52,11 @@ const updateSale = async (id) => {
 const updateSaleProduct = async (newId, newProductId, newQuantity) => {
   await updateSale(newId);
   const query = `
-  UPDATE sales_products
-  SET product_id = ?, quantity = ?
-  WHERE sale_id = ?
+  UPDATE sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?
   `;
   await connection.execute(query, [newProductId, newQuantity, newId]);
-  const { id, name } = await productModel.getProductsById(newProductId);
+  const product = await productModel.getProductsById(newProductId);
+  const { id, name } = product[0];
   await productModel.updateProduct(id, name, newQuantity);
   return {
     saleId: id,
@@ -79,7 +79,8 @@ const deleteSaleProduct = async (newId) => {
   const sale = await getSalesById(newId);
   const newProductId = sale[0].productId;
   const newQuantity = sale[0].quantity;
-  const { id, name, quantity } = await productModel.getProductsById(newProductId);
+  const product = await productModel.getProductsById(newProductId);
+  const { id, name, quantity } = product[0];
   await productModel.updateProduct(id, name, quantity + newQuantity);
   await deleteSale(newId);
   const query = 'DELETE FROM sales_products WHERE sale_id = ?';
