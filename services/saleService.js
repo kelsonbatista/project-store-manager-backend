@@ -1,6 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const saleModel = require('../models/saleModel');
 const connection = require('../config/connection');
+const { checkLengthQuantity } = require('../middlewares/validateProductMiddleware');
 
 const getAllSales = async () => {
   const result = await saleModel.getAllSales();
@@ -19,7 +20,7 @@ const checkSaleId = async (id) => {
 };
 
 const checkProductId = async (productId) => {
-  const query = 'SELECT id FROM products WHERE id = ?';
+  const query = 'SELECT * FROM products WHERE id = ?';
   const [result] = await connection.execute(query, [productId]);
   return result;
 };
@@ -35,13 +36,7 @@ const createSaleProduct = async (reqBody) => {
   const id = await createSale();
   const sales = await Promise.all(reqBody.map(async ({ productId, quantity }) => {
     const checkProduct = await checkProductId(productId);
-    if (!checkProduct.length) {
-      const error = { 
-        status: StatusCodes.NOT_FOUND, 
-        message: `Product ${productId} does not exist`,
-      };
-      throw error;
-    }
+    await checkLengthQuantity(checkProduct, productId, quantity);
     const sale = await saleModel.createSaleProduct(id, productId, quantity);
     return sale;
   }));

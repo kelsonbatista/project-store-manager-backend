@@ -21,4 +21,24 @@ const validateProduct = (req, _res, next) => {
   next();
 };
 
-module.exports = validateProduct;
+const checkLengthQuantity = (checkProduct, productId, quantity) => {
+  if (!checkProduct.length) {
+    const error = { 
+      status: StatusCodes.NOT_FOUND, 
+      message: `Product ${productId} does not exist`,
+    };
+    throw error;
+  }
+  if (checkProduct[0].quantity < quantity) {
+    const error = { 
+      status: StatusCodes.UNPROCESSABLE_ENTITY, 
+      message: 'Such amount is not permitted to sell',
+    };
+    throw error;
+  }
+};
+
+module.exports = {
+  validateProduct,
+  checkLengthQuantity,
+};
