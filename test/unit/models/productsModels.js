@@ -83,14 +83,15 @@ describe('PRODUCTS MODEL LAYER - Search for product by id', () => {
     })
 
     it('must return an array', async () => {
-      const result = await productModel.getAllProducts();
+      const result = await productModel.getProductsById();
       expect(result).to.be.an('array');
     });
 
     it('the array must be empty', async () => {
-      const result = await productModel.getAllProducts();
+      const result = await productModel.getProductsById();
       expect(result).to.be.empty;
     });
+
   });
 
   describe('if product exists', () => {
@@ -110,22 +111,22 @@ describe('PRODUCTS MODEL LAYER - Search for product by id', () => {
     })
 
     it('must return an array', async () => {
-      const result = await productModel.getAllProducts();
+      const result = await productModel.getProductsById();
       expect(result).to.be.an('array');
     });
 
     it('the array must be not empty', async () => {
-      const result = await productModel.getAllProducts();
+      const result = await productModel.getProductsById();
       expect(result).to.be.not.empty;
     });
 
     it('the array contain objects', async () => {
-      const result = await productModel.getAllProducts();
+      const result = await productModel.getProductsById();
       expect(result[0]).to.be.an('object');
     });
 
     it('objects contain attributes id, name, quantity', async () => {
-      const result = await productModel.getAllProducts();
+      const result = await productModel.getProductsById();
       expect(result[0]).to.be.includes.all.keys('id', 'name', 'quantity');
     });
   });
