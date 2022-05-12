@@ -9,7 +9,11 @@ const getAllProducts = async () => {
 
 const getProductsById = async (id) => {
   const result = await productModel.getProductsById(id);
-  return result;
+  if (!result.length) {
+    const error = { status: StatusCodes.NOT_FOUND, message: 'Product not found' };
+    throw error;
+  }
+  return result[0];
 };
 
 const checkProductName = async (name) => {
