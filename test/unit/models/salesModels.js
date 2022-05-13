@@ -67,7 +67,7 @@ describe('4.1) SALES MODEL LAYER - Search for all sales in the database', () => 
   })
 });
 
-describe('4.2) SALES MODEL LAYER - Search for product by id', () => {
+describe('4.2) SALES MODEL LAYER - Search for sales by id', () => {
   describe('if sales do not exists', () => {
 
     const resultExecute = [[]];
